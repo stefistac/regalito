@@ -1,55 +1,54 @@
+/* 1. CONFIGURACIÓN BASE */
 body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     background: radial-gradient(circle, #fff0f5 20%, #f8bbd0 100%);
     margin: 0;
-    overflow: hidden;
-    padding-left: 0;
+    overflow-x: hidden; 
+    font-family: 'Playfair Display', serif;
 }
 
+/* 2. EL CONTENEDOR DE LA FLOR Y EL BOTÓN */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
-    z-index: 10; /* Subimos el nivel para que gane a otras capas */
+    z-index: 2000 !important; /* MÁXIMA PRIORIDAD PARA CLICK */
 }
 
 .flower {
     position: relative;
-    width: 300px;
-    height: 300px;
-    margin: 0 auto;
-    animation:
-        pulse 2s infinite ease-in-out,
-        aparecerFlor 5s ease-out forwards;
+    width: 250px;
+    height: 250px;
+    margin-bottom: 30px;
+    animation: pulse 2s infinite ease-in-out;
 }
 
 @keyframes pulse {
-    0%, 100% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.1) rotate(5deg); }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
 
 .petal {
     position: absolute;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     background-color: #a864df;
     border-radius: 50% 50% 0 50%;
-    opacity: 0.9;
-    box-shadow: 0 0 20px rgba(166, 77, 255, 0.3);
     top: 50%;
     left: 50%;
     transform-origin: bottom left;
-    margin-top: -80px;
-    opacity: 0; 
+    margin-top: -70px;
+    opacity: 0;
     animation: aparecerFlor 1.5s ease-out forwards;
 }
 
+/* Rotaciones de pétalos */
 .p1 { transform: rotate(0deg); animation-delay: 0.1s; }
 .p2 { transform: rotate(51deg); animation-delay: 0.4s; }
 .p3 { transform: rotate(102deg); animation-delay: 0.7s; }
@@ -60,173 +59,125 @@ body {
 
 .center {
     position: absolute;
-    width: 45px;
-    height: 45px;
-    background-color: #81bb90;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, #a2d9b1 0%, #81bb90 100%);
     border-radius: 50%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 11;
-    background: radial-gradient(circle, #a2d9b1 0%, #81bb90 100%);
-    box-shadow: 0 0 10px rgba(0,0,0,0.3), inset 0 0 5px rgba(0,0,0,0.2);
+    z-index: 10;
     opacity: 0;
     animation: aparecerFlor 1s ease-out 2.2s forwards;
 }
 
+/* 3. EL BOTÓN - AHORA SÍ FUNCIONARÁ */
 .btn-entrada {
     position: relative;
-    z-index: 100; /* ESTO ES CLAVE: Pone el botón arriba de todo */
-    margin-top: 50px;
-    padding: 15px 30px;
+    z-index: 3000 !important; /* ENCIMA DE ABSOLUTAMENTE TODO */
+    padding: 15px 40px;
     background-color: #81bb90;
     color: white;
     border: none;
-    border-radius: 25px;
-    font-family: 'Dancing Script', cursive;
+    border-radius: 30px;
     font-size: 1.5rem;
     cursor: pointer;
     opacity: 0;
-    animation: aparecerFlor 1.5s ease-out 3.5s forwards;
-    box-shadow: 0 4px 15px rgba(129, 187, 144, 0.4);
-    transition: 0.3s;
-    pointer-events: auto; /* Asegura que reciba clicks */
+    animation: aparecerFlor 1.5s ease-out 3s forwards;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    pointer-events: auto !important; /* FUERZA EL CLICK */
 }
 
-.btn-entrada:hover {
-    transform: scale(1.1);
-    background-color: #a864df;
-    color: white;
-}
-
-/* MENSAJE FINAL CORREGIDO PARA QUE NO ESTORBE */
+/* 4. EL MENSAJE DE LA CARTA (OCULTO AL INICIO) */
 .mensaje-oculto {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    width: 90%;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none; /* SE APAGA PARA NO ESTORBAR */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     z-index: 50;
-    opacity: 0; 
-    display: none; /* Empezamos apagado para que no tape el botón */
-    pointer-events: none; /* No recibe clicks hasta que aparezca */
-    transition: opacity 1.5s ease;
+    pointer-events: none; 
 }
 
-.mostrar { 
-    display: block !important;
-    opacity: 1 !important; 
+.mostrar {
+    display: flex !important;
+    opacity: 1 !important;
     pointer-events: auto !important;
 }
 
 #texto-escritura {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-weight: 600;
-    font-size: 1.8rem; /* Tamaño optimizado para móvil */
     color: #b93232;
+    font-size: 1.6rem;
     text-align: center;
-    line-height: 1.5;
-    max-width: 95%;
-    margin: 0 auto;
-    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.7), 2px 2px 4px rgba(0, 0, 0, 0.15);
+    max-width: 85%;
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
 }
 
-/* Foto Final Grande Ajustada */
+/* 5. FOTO FINAL Y COLLAGE */
 #foto-final-container {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 500;
+    width: 100%;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 100%;
+    z-index: 100;
 }
 
 #foto-grande {
-    max-width: 90%; /* Evita que se salga en celulares */
+    max-width: 85%;
     height: auto;
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6));
+    border: 8px solid white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     transform: scale(0);
-    transition: transform 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-
-.texto-sticker {
-    opacity: 0;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem; /* Tamaño más cómodo para móvil */
-    color: #9e3a3a;
-    text-align: center;
-    margin: 10px 0;
-}
-
-.revelar-texto { opacity: 1 !important; }
 
 .mostrar-foto-grande { transform: scale(1) !important; }
 
-/* EFECTOS DE FONDO */
-.fondo-estrellado {
-    background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%) !important;
-    transition: background 2s ease;
+.texto-sticker {
+    font-size: 1.8rem;
+    color: #9e3a3a;
+    margin: 15px 0;
+    opacity: 0;
 }
 
+.revelar-texto { opacity: 1 !important; transition: 2s; }
+
+/* 6. ANIMACIONES DE FONDO */
 .p-drop {
     position: fixed;
     top: -10%;
-    font-size: 24px;
+    z-index: 1;
     animation: fall linear infinite;
 }
 
 @keyframes fall {
-    0% { top: -10%; transform: translateX(0) rotate(0deg); }
-    100% { top: 110%; transform: translateX(100px) rotate(360deg); }
+    to { top: 110%; transform: rotate(360deg); }
 }
 
 @keyframes aparecerFlor {
-    from { opacity: 0; scale: 0.5; }
-    to { opacity: 0.9; scale: 1; }
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
 }
 
-.fade-out {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1.5s ease;
+/* 7. AJUSTES PARA MÓVIL */
+@media (max-width: 600px) {
+    #texto-escritura { font-size: 1.3rem; }
+    .flower { transform: scale(0.7); }
+    .btn-entrada { font-size: 1.2rem; }
 }
 
-.letra-suave {
-    opacity: 0;
-    display: inline-block;
-    animation: aparecerLetra 0.6s forwards;
+.fondo-estrellado {
+    background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%) !important;
 }
 
-@keyframes aparecerLetra {
-    from { opacity: 0; filter: blur(3px); transform: translateY(2px); }
-    to { opacity: 1; filter: blur(0); transform: translateY(0); }
-}
+.fade-out { opacity: 0; transition: 1.5s; pointer-events: none; }
 
-#btn-reinicio {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    display: none;
-    z-index: 2000;
-    backdrop-filter: blur(8px);
-}
-
-.mostrar-btn { display: flex !important; }
-
-/* AJUSTES PARA PANTALLAS PEQUEÑAS */
-@media (max-width: 480px) {
-    #texto-escritura { font-size: 1.4rem; }
-    .texto-sticker.arriba { font-size: 1.8rem; }
-    .texto-sticker.abajo { font-size: 1.5rem; }
-    .flower { transform: scale(0.8); }
-}
